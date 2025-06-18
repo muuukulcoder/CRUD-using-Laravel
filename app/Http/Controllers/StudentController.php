@@ -66,13 +66,16 @@ class StudentController extends Controller
         
     }
     //This method will show edit  student page
-    public function edit(){
+    public function data($id){
+        $student = Student::find($id);
+        return view('/students/update',['data'=>$student]);
+
 
     }
     //This method will update a student
     public function update(Request $request, $id){
         $student = Student::find($id);
-        File::delete(public_path('uploads/'.$student->image));
+        
        
         $student->name = $request->name;
         $student->email = $request->email;
@@ -83,6 +86,9 @@ class StudentController extends Controller
         $student->district = $request->district;
 
         if ($request->hasFile('image')) {
+            // delete old image
+        File::delete(public_path('uploads/'.$student->image));
+            // Store new image
         $file = $request->file('image');
         $filename = time() . '.' . $file->getClientOriginalExtension();
         $file->move(public_path('uploads'), $filename);
@@ -91,7 +97,7 @@ class StudentController extends Controller
 
         $student->save();
         if($student){
-            return redirect('/list')->with('success', 'Student added successfully!');
+            return redirect('/list')->with('success', 'Updated successfully!');
         }else{
             return "Something Error!!";
         }

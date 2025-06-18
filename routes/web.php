@@ -20,4 +20,5 @@ Route::get('delete/{id}',[StudentController::class, 'destory']);
 
 
 //Route for edit using update function in Controller
-Route::get('edit/{id}',[StudentController::class, 'update']);
+Route::get('edit/{id}',[StudentController::class, 'data']);
+Route::put('update-student/{id}', [StudentController::class, 'update']);
