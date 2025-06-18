@@ -29,13 +29,14 @@ class StudentController extends Controller
                     'required',
                     'image',
                     'mimes:png,jpg,jpeg',
-                    'min:100'   //minimum 100kb
+                    'min:10',  //minimum 10kb
+                    'max:2048' //maximum 2mb 
                 ],
                 ], [
                     'image.required' => 'Please upload an image.',
                     'image.image' => 'The file must be an image.',
                     'image.mimes' => 'Only jpeg, jpg, png formats are allowed.',
-                    'image.min' => 'The image must be at least 100 KB.',
+                    'image.min' => 'The image must be at least 50 KB.',
 
             ]);
 
@@ -82,8 +83,7 @@ class StudentController extends Controller
         $student->mobile = $request->mobile;
         $student->father = $request->father;
         $student->mother = $request->mother;
-        $student->state = $request->state;
-        $student->district = $request->district;
+        
 
         if ($request->hasFile('image')) {
             // delete old image
