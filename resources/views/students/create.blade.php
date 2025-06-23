@@ -38,48 +38,46 @@
             @csrf
             <div class="mb-3">
                 <label class="form-label">Student Name</label>
-                <input type="text" class="form-control" name="name" required />
+                <input type="text" class="form-control" name="name" value="{{ old('name') }}" required />
 
             </div>
             <div class="mb-3">
                 <label class="form-label">Email address</label>
-                <input type="email" class="form-control" name="email" required />
-
+                <input type="email" class="form-control" name="email" value="{{ old('email') }}" required />
+                @error('email')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">Mobile Number</label>
-                <input type="tel" class="form-control" name="mobile" pattern="[0-9]{10}" required />
-
+                <input type="tel" class="form-control" name="mobile" value="{{ old('mobile') }}"
+                    pattern="[0-9]{10}" maxlength="10" required />
+                @error('mobile')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">Father's Name</label>
-                <input type="text" class="form-control" name="father" required />
+                <input type="text" class="form-control" name="father" value="{{ old('father') }}" required />
 
             </div>
             <div class="mb-3">
                 <label class="form-label">Mother's Name</label>
-                <input type="text" class="form-control" name="mother" required />
+                <input type="text" class="form-control" name="mother" value="{{ old('mother') }}" required />
 
             </div>
             <div class="row mb-3">
-                <div class="col">
-                    <label for="state" class="form-label">State</label>
-                    <select class="form-select" id="state_input" name="state" required>
-
-                    </select>
-
-
-                    <!-- States added via JS -->
-
-
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="state_input" class="form-label">State</label>
+                        <select class="form-select" id="state_input" name="state" required></select>
+                    </div>
+                    <div class="col-6" id="district_wrapper" style="display: none;">
+                        <label for="district_input" class="form-label">District</label>
+                        <select class="form-select" id="district_input" name="district" required></select>
+                    </div>
                 </div>
-                <div class="col">
-                    <label for="district" class="form-label">District</label>
-                    <select class="form-select" name="district" id="district_input" required>
 
-                    </select>
-
-                </div>
                 <div class="mb-3">
                     <label class="form-label">Profile Photo</label>
                     <input class="form-control" type="file" accept="image/*" id="photoUpload" name="image" />

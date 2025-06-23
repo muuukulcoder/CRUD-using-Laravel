@@ -40,18 +40,24 @@
             <div class="mb-3">
                 <label class="form-label">Student Name</label>
                 <input type="text" class="form-control" value="{{ $data->name }}" name="name" />
-
+                @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">Email address</label>
                 <input type="email" class="form-control" value="{{ $data->email }}" name="email" />
-
+                @error('email')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">Mobile Number</label>
                 <input type="tel" class="form-control" name="mobile" value="{{ $data->mobile }}"
                     pattern="[0-9]{10}" maxlength="10" />
-
+                @error('mobile')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">Father's Name</label>
@@ -64,7 +70,7 @@
 
             </div>
             <div class="row mb-3">
-               
+
                 <div class="mb-3">
                     <label class="form-label">Profile Photo</label>
                     <input class="form-control" type="file" accept="image/*" id="photoUpload" name="image" />
@@ -92,7 +98,7 @@
     <script language="javascript">
         populateStates("state_input", "district_input");
     </script>
-    
+
 </body>
 
 </html>

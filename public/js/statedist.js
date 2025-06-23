@@ -1,12 +1,10 @@
- var states_arr = new Array("Andhra Pradesh" , "Arunachal Pradesh" , "Assam" , "Bihar" , "Chhattisgarh" , "Goa" , "Gujarat" , "Haryana" , "Himachal Pradesh" , "Jammu and Kashmir" , "Jharkhand" , "Karnataka" , "Kerala" , "Madhya Pradesh" , "Maharashtra" , "Manipur" , "Meghalaya" , "Mizoram" , "Nagaland" , "Orissa" , "Punjab" , "Rajasthan" , "Sikkim" , "Tamil Nadu" , "Telangana" , "Tripura" , "Uttar Pradesh" , "Uttaranchal" , "West Bengal" , "Andaman and Nicobar Islands" , "Chandigarh" , "Dadra and Nagar Haveli" , "Daman and Diu" , "Delhi" , "Lakshadweep" , "Pondicherry");
+ var states_arr = new Array("Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Orissa", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttaranchal", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Lakshadweep", "Pondicherry");
 
-    var district_arr = new Array();
+  var district_arr = new Array();
+  district_arr[0] = "";
+  district_arr[1] = "Anantapur|Chittoor|Cuddapah|East Godavari|Guntur|Krishna|Kurnool|Nellore|Prakasam|Srikakulam|Vishakapatnam|Vizianagaram|West Godavari";
 
-    district_arr[0] = "";
-
-    district_arr[1] = "Anantapur|Chittoor|Cuddapah|East Godavari|Guntur|Krishna|Kurnool|Nellore|Prakasam|Srikakulam|Vishakapatnam|Vizianagaram|West Godavari";
-
-    district_arr[2] = "Anjaw|Changlang|Dibang Valley|East Kameng|East Siang|Kra Daadi|Kurung Kumey|Lohit|Longding|Lower Dibang Valley|Lower Subansiri|Namsai|Papum Pare|Siang|Tawang|Tirap|Upper Siang|Upper Subansiri|West Kameng|West Siang";
+   district_arr[2] = "Anjaw|Changlang|Dibang Valley|East Kameng|East Siang|Kra Daadi|Kurung Kumey|Lohit|Longding|Lower Dibang Valley|Lower Subansiri|Namsai|Papum Pare|Siang|Tawang|Tirap|Upper Siang|Upper Subansiri|West Kameng|West Siang";
 
     district_arr[3] = "Baksa|Barpeta|Bongaigaon|Cachar|Chirang|Darrang|Dhemaji|Dhubri|Dibrugarh|Dima Hasao|Goalpara|Golaghat|Hailakandi|Jorhat|Kamrup M|Kamrup R|Karbi Anglong|Karimganj|Kokrajhar|Lakhimpur|Marigaon|Nagaon|Nalbari|Sibsagar|Sonitpur|Tinsukia|Udalguri";
 
@@ -78,41 +76,47 @@
     district_arr[35] = "Lakshadweep";
 
     district_arr[36] = "Karaikal|Mahe|Pondicherry|Yanam";
+  // ... (Your full district_arr as you've pasted)
 
+  function populateDistricts(stateElementId, districtElementId) {
+    var stateElement = document.getElementById(stateElementId);
+    var selectedIndex = stateElement.selectedIndex;
+    var districtElement = document.getElementById(districtElementId);
+    var districtWrapper = document.getElementById("district_wrapper");
 
-    function populateDistricts(stateElementId, districtElementId) 
-    {
-      var selectedStateIndex = document.getElementById(stateElementId).selectedIndex;
-      var districtElement = document.getElementById(districtElementId);
-      districtElement.length = 0;
-      districtElement.options[0] = new Option('Select district', '');
-      districtElement.selectedIndex = 0;
-      var district_ar = district_arr[selectedStateIndex].split("|");
-      for (var i = 0; i < district_ar.length; i++) 
-      {
-        districtElement.options[districtElement.length] = new Option(district_ar[i], district_ar[i]);
+    districtElement.length = 0;
+    districtElement.options[0] = new Option('Select district', '');
+    districtElement.selectedIndex = 0;
+
+    if (selectedIndex > 0 && district_arr[selectedIndex]) {
+      var districtList = district_arr[selectedIndex].split("|");
+      for (var i = 0; i < districtList.length; i++) {
+        districtElement.options[districtElement.length] = new Option(districtList[i], districtList[i]);
       }
+      districtWrapper.style.display = 'block'; // Show the district field
+    } else {
+      districtWrapper.style.display = 'none'; // Hide if no state selected
+    }
+  }
+
+  function populateStates(stateElementId, districtElementId) {
+    var stateElement = document.getElementById(stateElementId);
+    stateElement.length = 0;
+    stateElement.options[0] = new Option('Select state', '-1');
+    stateElement.selectedIndex = 0;
+
+    for (var i = 0; i < states_arr.length; i++) {
+      stateElement.options[stateElement.length] = new Option(states_arr[i], states_arr[i]);
     }
 
-    function populateStates(stateElementId, districtElementId)
-    {
-      // given the id of the <select> tag as function argument, it inserts <option> tags
-      var stateElement = document.getElementById(stateElementId);
-      stateElement.length = 0;
-      stateElement.options[0] = new Option('Select state', '-1');
-      stateElement.selectedIndex = 0;
-      for (var i = 0; i < states_arr.length; i++)
-      {
-        stateElement.options[stateElement.length] = new Option(states_arr[i], states_arr[i]);
-      }
-
-      // Assigned all countries. Now assign event listener for the states.
-
-      if (districtElementId) 
-      {
-        stateElement.onchange = function () 
-        {
-          populateDistricts(stateElementId, districtElementId);
-        };
-      }
+    if (districtElementId) {
+      stateElement.onchange = function () {
+        populateDistricts(stateElementId, districtElementId);
+      };
     }
+  }
+
+  // Initialize on page load
+  window.onload = function () {
+    populateStates("state_input", "district_input");
+  };
